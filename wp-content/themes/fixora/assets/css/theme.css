@@ -1,0 +1,176 @@
+/*
+ * Fixora: WordPress glue for the section styles in fixora.css.
+ * fixora.css is generated from the Webflow build; block markup adds wrappers (figure, wp-block-button,
+ * template parts) that the rules below make transparent.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; vertical-align: middle; }
+ul, ol { margin-top: 0; margin-bottom: var(--wp--custom--space-small); padding-left: var(--wp--custom--space-medium); }
+li { margin-bottom: var(--wp--custom--space-extra-small); }
+
+/* Template parts are plain wrappers, so the sticky navbar sticks to the whole page. */
+.wp-site-blocks > header.wp-block-template-part,
+.wp-site-blocks > footer.wp-block-template-part { display: contents; }
+.wp-site-blocks > * { margin-block: 0; }
+
+/* Converted Webflow divs carry no paragraph margins. */
+:where(p[class*="fx-"]) { margin: 0; }
+:where(.fx-main, .fx-navbar, .fx-footer) :where(p, figure) { margin: 0; }
+
+/* Links that were <a class="x">: the paragraph steps aside, the link takes the styles. */
+:is(.fx-navbar-link, .fx-mobile-menu-phone, .fx-footer-link, .fx-footer-utility-link, .fx-job-back-link, .fx-license-link) { display: contents; }
+:is(.fx-navbar-link, .fx-mobile-menu-phone, .fx-footer-link, .fx-footer-utility-link, .fx-job-back-link, .fx-license-link) > a { display: inline-flex; }
+p[class*="fx-"] > a:only-child:not([class]) { color: inherit; }
+
+/* Images: classes sit on the figure, the img fills it. */
+.wp-block-image.fx-img > img, .wp-block-image.fx-img > a > img, .wp-block-post-featured-image.fx-img img {
+	width: 100%; height: 100%; object-fit: inherit; object-position: inherit; border-radius: inherit; display: block;
+}
+.wp-block-image.fx-img.is-resized { display: block; flex-shrink: 0; }
+.wp-block-image.fx-img.is-resized > img { width: auto; height: auto; }
+.wp-block-image.fx-brand-logo > a { display: block; }
+
+/* Linked cards: the card's heading link stretches over the whole card. */
+.fx-linked { position: relative; }
+.fx-linked :is(h1, h2, h3, h4, h5, h6) a { color: inherit; text-decoration: none; }
+.fx-linked :is(h1, h2, h3, h4, h5, h6) a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.fx-linked :is(h1, h2, h3, h4, h5, h6) a:focus-visible { outline: none; }
+.fx-linked:has(a:focus-visible) { outline: 2px solid var(--wp--preset--color--ink); outline-offset: 3px; }
+
+/* Buttons: wrappers step aside so the link is the flex item, exactly like the Webflow <a>. */
+.fx-btns, .wp-block-button[class*="fx-button"] { display: contents; }
+.wp-block-button[class*="fx-button"] .wp-block-button__link { box-sizing: border-box; border: 0; }
+.fx-button-whatsapp .wp-block-button__link {
+	border: 1px solid #1a171424; color: var(--wp--preset--color--ink); font-size: 15px; font-weight: 600; line-height: 1.2;
+}
+.fx-button-whatsapp .wp-block-button__link::before {
+	content: ""; flex-shrink: 0; width: 30px; height: 30px; border-radius: 100px;
+	background: #25d3661f url(../img/icons/whatsapp.svg) center / 17px no-repeat;
+}
+.fx-no-icon .wp-block-button__link::before { display: none; }
+.fx-button-whatsapp .wp-block-button__link:hover { color: var(--wp--preset--color--ink); background-color: var(--wp--preset--color--white); }
+
+/* Navbar and mobile menu. */
+.fx-menu-button { appearance: none; background: none; border: 0; padding: 0; }
+.fx-menu-button-bar { display: block; transition: transform .3s; }
+.fx-mobile-menu-button .wp-block-button__link { width: 100%; }
+.admin-bar .fx-navbar { top: var(--wp-admin--admin-bar--height, 0px); }
+@media screen and (max-width: 767px) {
+	.fx-mobile-menu { transform: translateY(-12px); transition: opacity .3s cubic-bezier(.33, 1, .68, 1), transform .3s cubic-bezier(.33, 1, .68, 1), visibility 0s .3s; }
+	.fx-mobile-nav.is-open .fx-mobile-menu { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+	.fx-mobile-nav.is-open .fx-menu-button-bar { transform: translateY(3.5px) rotate(45deg); }
+	.fx-mobile-nav.is-open .fx-menu-button-bar-short { width: 22px; transform: translateY(-3.5px) rotate(-45deg); }
+}
+
+/* Jobs list (query loop). */
+.wp-block-post-template.fx-jobs-list, .wp-block-post-template.fx-post-grid { list-style: none; margin: 0; padding: 0; }
+.fx-jobs-list > li, .fx-post-grid > li { margin: 0; }
+.fx-job-card { text-decoration: none; transition: transform .25s, box-shadow .25s; }
+.fx-job-card-title { font-family: inherit; }
+
+/* FAQ: core/details styled as the Webflow accordion. */
+.fx-faq-item summary {
+	list-style: none; display: flex; align-items: center; gap: 20px; cursor: pointer;
+	color: var(--wp--preset--color--ink); letter-spacing: -.5px; font-size: 21px; font-weight: 500; line-height: 1.22;
+}
+.fx-faq-item summary::-webkit-details-marker { display: none; }
+.fx-faq-item summary::after {
+	content: ""; flex-shrink: 0; margin-left: auto; width: 34px; height: 34px; border-radius: 100px;
+	background: var(--wp--preset--color--blue-tint) url(../img/icons/faq-plus.svg) center / 17px no-repeat;
+	transition: transform .3s cubic-bezier(.33, 1, .68, 1);
+}
+.fx-faq-item[open] summary::after { transform: rotate(45deg); }
+.fx-faq-item { display: block; }
+.fx-faq-item .fx-faq-answer { display: block; margin-top: 14px; }
+.fx-faq-item[open] .fx-faq-answer { animation: fx-faq-in .35s cubic-bezier(.33, 1, .68, 1); }
+@keyframes fx-faq-in { from { opacity: 0; transform: translateY(-6px); } }
+@media screen and (max-width: 767px) { .fx-faq-item summary { font-size: 18px; } }
+
+/* Booking form (Fixora Core shortcode). */
+.fx-booking-form { width: 100%; padding-bottom: 27px; } /* the Webflow form's trailing gap and margin */
+.fx-booking-form .fx-form-input { display: block; width: 100%; font: inherit; font-size: 15px; line-height: 1.42857; outline: 0; }
+.fx-booking-form .fx-form-submit-button { border: 0; cursor: pointer; font-family: inherit; line-height: 24px; }
+.fx-hp { position: absolute; left: -9999px; }
+
+/* Reveal: hidden only when JS runs; theme.js adds .is-in. */
+html.fx-js [data-fx-reveal]:not(.is-in) { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { html.fx-js [data-fx-reveal] { opacity: 1 !important; transform: none !important; } }
+
+/* ---------- Pages WordPress adds (blog, page, search, jobs archive) ---------- */
+.fx-section-list { background-color: var(--wp--preset--color--cream); }
+.fx-utility-wide { max-width: 1240px; }
+.fx-utility-title { font-size: var(--wp--preset--font-size--heading-1); letter-spacing: -.02em; line-height: 1.1; font-weight: 700; margin: 0; }
+.fx-utility-header .fx-utility-lede, .fx-utility-header .wp-block-post-excerpt__excerpt { color: var(--wp--preset--color--ink-60); font-size: var(--wp--preset--font-size--text-large); margin: 0; }
+.fx-post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.fx-post-meta .fx-kicker a { color: inherit; text-decoration: none; }
+.fx-post-date { color: var(--wp--preset--color--ink-60); font-size: 14px; }
+.fx-post-cover { border-radius: var(--wp--custom--radius-large); overflow: hidden; aspect-ratio: 16 / 9; object-fit: cover; }
+.fx-prose { font-size: 17px; line-height: 1.65; color: var(--wp--preset--color--ink); }
+.fx-prose > * { margin-block: 0; }
+.fx-prose > * + * { margin-top: 1.25em; }
+.fx-prose > :is(h2, h3, h4) { margin-top: 1.8em; }
+.fx-prose img { border-radius: var(--wp--custom--radius-medium); height: auto; }
+.fx-prose ul, .fx-prose ol { padding-left: 1.25em; }
+.fx-post-tags a { display: inline-block; margin: 0 6px 6px 0; padding: 6px 13px; border-radius: 9px; background: var(--wp--preset--color--blue-tint); color: var(--wp--preset--color--blue-text); font-size: 13px; font-weight: 600; text-decoration: none; }
+.fx-post-tags .wp-block-post-terms__separator { display: none; }
+.fx-post-nav { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid var(--wp--preset--color--line); padding-top: 24px; font-weight: 600; }
+.fx-post-nav a { color: var(--wp--preset--color--ink); text-decoration: none; }
+.fx-post-nav a:hover { color: var(--wp--preset--color--blue-text); }
+.fx-post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.fx-post-card {
+	display: flex; flex-direction: column; gap: 10px; height: 100%; padding: 14px 14px 22px;
+	background: var(--wp--preset--color--white); border: 1px solid var(--wp--preset--color--line); border-radius: 24px;
+	transition: transform .25s, box-shadow .25s;
+}
+.fx-post-card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -20px #1a171466; }
+.fx-post-card > :not(.fx-post-card-photo) { padding-inline: 10px; }
+.fx-post-card-photo { border-radius: 16px; overflow: hidden; margin-bottom: 8px; }
+.fx-post-card .wp-block-post-excerpt__excerpt { margin: 0; }
+.fx-post-card .wp-block-post-excerpt__more-text { display: none; }
+.fx-pagination { display: flex; justify-content: center; gap: 8px; margin-top: 40px; font-weight: 600; }
+.fx-pagination a, .fx-pagination .current { padding: 8px 14px; border-radius: 10px; color: var(--wp--preset--color--ink); text-decoration: none; }
+.fx-pagination .current { background: var(--wp--preset--color--white); }
+.fx-search { max-width: 520px; }
+.fx-search .wp-block-search__input { border: 1px solid #1a171424; border-radius: 12px; padding: 13px 16px; font: inherit; }
+.fx-search .wp-block-search__button { border-radius: 12px; margin-left: 8px; }
+.fx-section-list .fx-jobs-query { width: 100%; }
+.fx-comments { border-top: 1px solid var(--wp--preset--color--line); padding-top: 32px; }
+.fx-comments .wp-block-comments-title { font-size: var(--wp--preset--font-size--heading-4); }
+.fx-comment { padding: 18px 0; border-bottom: 1px solid var(--wp--preset--color--line); }
+.fx-comments textarea, .fx-comments input[type="text"], .fx-comments input[type="email"], .fx-comments input[type="url"] {
+	width: 100%; border: 1px solid #1a171424; border-radius: 12px; padding: 12px 14px; font: inherit;
+}
+.fx-comments input[type="submit"] { background: var(--wp--preset--color--blue-deep); color: #fff; border: 0; border-radius: 14px; padding: 11px 22px; font: inherit; font-weight: 600; cursor: pointer; }
+@media screen and (max-width: 991px) { .fx-post-grid { grid-template-columns: repeat(2, 1fr); } }
+@media screen and (max-width: 767px) { .fx-post-grid { grid-template-columns: 1fr; } .fx-prose { font-size: 16px; } }
+
+/* WordPress core classes required by theme review. */
+.alignleft { float: left; margin: 0 1.5em 1em 0; }
+.alignright { float: right; margin: 0 0 1em 1.5em; }
+.aligncenter { margin-left: auto; margin-right: auto; }
+.screen-reader-text { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); }
+.wp-caption-text, .gallery-caption { font-size: 13px; color: var(--wp--preset--color--ink-60); }
+.sticky, .bypostauthor { position: relative; }
+
+/* Owner review 20.10: on wide screens the technician grows with the viewport and stays near the content. */
+@media screen and (min-width: 1440px) {
+	.fx-hero-technician { width: clamp(440px, calc(34vw - 50px), 700px); right: max(-4%, calc(50vw - 900px)); }
+}
+/* Owner review 20.10: keep the technician's head in frame on wide screens (the photo used to crop from the centre). */
+.fx-booking-background { object-position: 50% 10%; }
+
+/* Block style "WhatsApp" (Button block): same look as the WhatsApp buttons in the patterns. */
+.wp-block-button.is-style-whatsapp .wp-block-button__link {
+	display: inline-flex; align-items: center; gap: 11px; padding: 13px 22px 13px 14px; border-radius: 13px;
+	border: 1px solid #1a171424; background: var(--wp--preset--color--white); color: var(--wp--preset--color--ink);
+	font-size: 15px; font-weight: 600; line-height: 1.2; transition: transform .2s, box-shadow .2s;
+}
+.wp-block-button.is-style-whatsapp .wp-block-button__link::before {
+	content: ""; flex-shrink: 0; width: 30px; height: 30px; border-radius: 100px;
+	background: #25d3661f url(../img/icons/whatsapp.svg) center / 17px no-repeat;
+}
+.wp-block-button.is-style-whatsapp .wp-block-button__link:hover { transform: translateY(-2px); box-shadow: 0 12px 30px #1a171426; }

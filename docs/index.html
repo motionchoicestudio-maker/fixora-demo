@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fixora theme documentation</title>
+<style>
+:root{--ink:#1a1714;--blue:#1570cd;--bg:#f7f3ee;--line:rgba(26,23,20,.1)}
+body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+h1{font-size:40px;letter-spacing:-.02em;margin:0 0 8px}h2{font-size:24px;margin:48px 0 12px;padding-top:24px;border-top:1px solid var(--line)}h3{margin:24px 0 6px}
+code,pre{font-family:ui-monospace,Menlo,monospace;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:8px}code{padding:2px 6px}pre{padding:14px 16px;overflow:auto}
+a{color:var(--blue)}table{border-collapse:collapse;width:100%;background:#fff;border-radius:12px;overflow:hidden}td,th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:rgba(26,23,20,.6)}
+.muted{color:rgba(26,23,20,.62)}ol li,ul li{margin:4px 0}
+</style>
+</head>
+<body><div class="wrap">
+<h1>Fixora</h1>
+<p class="muted">WordPress block theme for home repair and handyman services. Version 1.0.0</p>
+
+<h2 id="install">1. Installation</h2>
+<ol>
+<li>In WordPress go to <strong>Appearance → Themes → Add New → Upload Theme</strong>, choose <code>fixora.zip</code>, install and activate.</li>
+<li>After activating the theme WordPress shows a notice: <strong>Begin installing plugin</strong> (also under Appearance → Install Plugins). Click it to install and activate <strong>Fixora Core</strong>. You can also upload <code>plugins/fixora-core.zip</code> from the package under Plugins → Add New → Upload Plugin.</li>
+<li><strong>Appearance → Import Fixora demo → Import demo content.</strong> This creates seven jobs, three blog posts, the Privacy Policy and Terms of Use pages, a Home page and a Blog page, and sets them as the front page and posts page. Running it again updates the same items.</li>
+<li><strong>Settings → Permalinks → Save Changes</strong> once, so <code>/jobs/</code> URLs work.</li>
+</ol>
+
+<h2 id="pages">2. Pages and templates</h2>
+<table>
+<tr><th>Page</th><th>Template</th><th>Where the content lives</th></tr>
+<tr><td>Home</td><td>Front Page</td><td>Patterns: Hero, Showcase photo and stats, Services grid, How it works, Popular jobs, Promise stack, Reviews lanes, Before and after, FAQ, Booking. Edit them in <strong>Appearance → Editor → Templates → Front Page</strong>; every text, image and button is a normal block.</td></tr>
+<tr><td>Popular jobs list</td><td>Query Loop on the Front Page</td><td>Automatic from <strong>Jobs</strong> (Order field decides the order, seven are shown).</td></tr>
+<tr><td>Single job</td><td>Single: Job</td><td>Title, featured image, and the job fields below. The "includes" list and the price note are shared by all jobs and live in the template.</td></tr>
+<tr><td>All jobs</td><td>Archive: Job (<code>/jobs/</code>)</td><td>Automatic, ordered by the Order field.</td></tr>
+<tr><td>Blog</td><td>Blog Home</td><td>Latest posts as cards. Categories, tags and dates use the Archive template.</td></tr>
+<tr><td>Single post</td><td>Single Posts</td><td>Category, date, title, excerpt as the lead, featured image, content, tags, comments.</td></tr>
+<tr><td>Privacy Policy, Terms of Use</td><td>Pages</td><td>Plain pages created by the demo importer and linked from the footer. Edit their text under Pages.</td></tr>
+<tr><td>404, Search</td><td>404, Search Results</td><td>Patterns "404 page" and "Search results".</td></tr>
+</table>
+
+<h2 id="fields">3. Job fields</h2>
+<p>Open a job and use the <strong>Custom Fields</strong> panel (enable it under Preferences → Panels if hidden). Blocks in the templates are bound to these fields with Block Bindings, so changes appear everywhere.</p>
+<table>
+<tr><th>Meta key</th><th>Example</th><th>Shown in</th></tr>
+<tr><td><code>fixora_kicker</code></td><td>Plumbing - 40 min</td><td>Job card, job page</td></tr>
+<tr><td><code>fixora_short</code></td><td>Stop the drip and the water bill in one visit.</td><td>Job card, job page</td></tr>
+<tr><td><code>fixora_price</code></td><td>from $49</td><td>Price pill on the card and the job page</td></tr>
+</table>
+
+<h2 id="booking">4. Repair request form</h2>
+<p>The Booking section uses the <strong>Repair request form</strong> block (also available as the shortcode <code>[fixora_booking_form]</code>). Every request is saved under <strong>Jobs → Requests</strong>, so nothing is lost if email fails, and is emailed to the site admin address. To send it elsewhere, add to a child theme:</p>
+<pre>add_filter( 'fixora_booking_recipient', function () { return 'dispatch@example.com'; } );</pre>
+<p>Prefer Contact Form 7 or WPForms? Replace the form block with their shortcode inside the Booking pattern.</p>
+
+<h2 id="design">5. Colors, fonts, spacing</h2>
+<ul>
+<li>Colors, font sizes and spacing are in <strong>Appearance → Editor → Styles</strong> (theme.json). Change "Blue Deep" and "Blue Text" to re-brand buttons and links.</li>
+<li>Font: Inter (SIL Open Font License), bundled in the theme. No font is loaded from third-party servers.</li>
+<li>Phone number and WhatsApp links are plain links in the Header, Hero, FAQ, Booking and Footer patterns; search for <code>wa.me</code> and <code>tel:</code> in the Site Editor to update them.</li>
+<li>Logo: Appearance → Editor → Patterns → Header, click the logo image and replace it.</li>
+<li>Block style: any Button block can use the <strong>WhatsApp</strong> style (Styles panel) for the white button with the WhatsApp icon.</li>
+</ul>
+
+<h2 id="animations">6. Animations</h2>
+<p>Section reveals, the steps rail, the promise stack check marks, the reviews drift and the hero entrance are powered by GSAP (bundled). They respect <code>prefers-reduced-motion</code>. To disable them completely, dequeue the script:</p>
+<pre>add_action( 'wp_enqueue_scripts', function () { wp_dequeue_script( 'fixora' ); }, 20 );</pre>
+
+<h2 id="child">7. Child theme</h2>
+<p>The package includes <code>fixora-child.zip</code>. Install it the same way as the theme (Appearance → Themes → Add New → Upload Theme) and activate it <em>instead</em> of Fixora. Put your CSS in its <code>style.css</code> and PHP snippets (such as the filters above) in its <code>functions.php</code>; parent theme updates will not overwrite them. Site Editor changes are stored in the database and stay in place either way.</p>
+
+<h2 id="translation">8. Translation</h2>
+<p>All strings are translatable. Templates: <code>fixora/languages/fixora.pot</code>; plugin: <code>fixora-core/languages/fixora-core.pot</code>. Use Loco Translate or Poedit.</p>
+
+<h2 id="credits">9. Credits</h2>
+<ul>
+<li>GSAP 3.13 (gsap.com), standard "no charge" license.</li>
+<li>Inter by Rasmus Andersson, SIL Open Font License 1.1.</li>
+<li>Line icons by Lucide, ISC License. WhatsApp logo used only to link to a WhatsApp chat.</li>
+<li>TGM Plugin Activation, GPL-2.0-or-later.</li>
+<li>Demo images are for preview only and are replaced by placeholders in the download package.</li>
+</ul>
+
+<h2 id="support">10. Support</h2>
+<p>Questions: use the item's comments on ThemeForest or the support email in your purchase receipt. Please include your WordPress and plugin versions.</p>
+</div></body></html>
