@@ -121,12 +121,14 @@
 		} );
 	} );
 
-	/* Promise stack: each check turns green as its card docks */
-	$$( '.fx-promise-card' ).forEach( function ( card ) {
-		var check = $( '.fx-promise-check', card );
-		onScroll( card, 'top 185px', function ( tl ) {
-			tl.to( check, { backgroundColor: 'rgba(18,183,106,0.16)', duration: 0.35, ease: 'power2.out' } )
-				.fromTo( check, { scale: 0.85 }, { scale: 1, duration: 0.35, ease: POP }, 0 );
+	/* Promise list: cards rise into place one after another, then each check turns green */
+	$$( '.fx-promise-stack' ).forEach( function ( stack ) {
+		var cards = $$( '.fx-promise-card', stack );
+		var checks = $$( '.fx-promise-check', stack );
+		onScroll( stack, 'top 85%', function ( tl ) {
+			tl.from( cards, { autoAlpha: 0, y: 40, duration: 0.7, stagger: 0.12, ease: OUT } )
+				.to( checks, { backgroundColor: 'rgba(18,183,106,0.16)', duration: 0.35, stagger: 0.12, ease: 'power2.out' }, 0.35 )
+				.fromTo( checks, { scale: 0.85 }, { scale: 1, duration: 0.35, stagger: 0.12, ease: POP }, 0.35 );
 		} );
 	} );
 
