@@ -156,6 +156,9 @@ html.fx-js [data-fx-reveal]:not(.is-in) { opacity: 0; }
 .wp-caption-text, .gallery-caption { font-size: 13px; color: var(--wp--preset--color--ink-60); }
 .sticky, .bypostauthor { position: relative; }
 
+/* Owner review 20.10: the promise cards no longer stack while scrolling; they rise into place (theme.js). */
+.fx-promise-stack .fx-promise-card { position: relative; top: 0; }
+
 /* Owner review 20.10: on wide screens the technician grows with the viewport and stays near the content. */
 @media screen and (min-width: 1440px) {
 	.fx-hero-technician { width: clamp(440px, calc(34vw - 50px), 700px); right: max(-4%, calc(50vw - 900px)); }
